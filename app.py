@@ -39,6 +39,6 @@ def main():
 def tweet():
 	try:
 		client.create_tweet(text=request.form["tweet"])
-		return 200
+		return "", 200
 	except Exception as e:
-		return { error: e }, 403
+		return { "error": str(e) }, 403
