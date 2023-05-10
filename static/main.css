@@ -1,0 +1,9 @@
+#main-content {
+    width: 300px;
+}
+
+@media screen and (min-width: 576px) {
+    #main-content {
+        width: 500px;
+    }
+}
