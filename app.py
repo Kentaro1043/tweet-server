@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, request, render_template
 from flask_httpauth import HTTPBasicAuth
 import tweepy
 from dotenv import load_dotenv
