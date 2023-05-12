@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from flask_httpauth import HTTPBasicAuth
 import tweepy
 from dotenv import load_dotenv
@@ -37,8 +37,9 @@ def main():
 @app.route("/tweet", methods=["POST"])
 @auth.login_required
 def tweet():
+	data = request.get_json()
 	try:
-		client.create_tweet(text=request.form["tweet"])
-		return "", 200
+		client.create_tweet(text=data["tweet"])
+		return jsonify({}), 200
 	except Exception as e:
-		return str(e), 403
+		return jsonify({"error": str(e)}), 403
