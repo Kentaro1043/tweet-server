@@ -1,6 +1,8 @@
-passwordInput = document.getElementById("password-input");
-tweetInput = document.getElementById("tweet-input");
-tweetsButton = document.getElementById("tweets-button");
+let passwordInput = document.getElementById("password-input");
+let tweetInput = document.getElementById("tweet-input");
+let tweetsButton = document.getElementById("tweets-button");
+
+
 
 document.getElementById("tweets-button").addEventListener("click", () => {
 	// フォームを無効化
