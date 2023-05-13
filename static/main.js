@@ -69,6 +69,7 @@ document.getElementById("tweets-button").addEventListener("click", () => {
 		})
 		.then((data) => {
 			if (data === "OK") {
+				tweetInput.value = "";
 				alertContainer.prepend(makeSucceedAlert());
 			} else {
 				alertContainer.prepend(makeFailedAlert(data["error"]));
