@@ -45,6 +45,9 @@ document.getElementById("tweets-button").addEventListener("click", () => {
 	tweetInput.disabled = true;
 	tweetsButton.disabled = true;
 
+	// ボタンにローディングアイコンを追加
+	tweetsButton.innerHTML = '<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span><span class="visually-hidden">送信中</span> ツイートする';
+
 	// ツイートを送信
 	fetch("./tweets", {
 		method: "POST",
@@ -66,17 +69,20 @@ document.getElementById("tweets-button").addEventListener("click", () => {
 		})
 		.then((data) => {
 			if (data === "OK") {
-				alertContainer.appendChild(makeSucceedAlert());
+				alertContainer.prepend(makeSucceedAlert());
 			} else {
-				alertContainer.appendChild(makeFailedAlert(data["error"]));
+				alertContainer.prepend(makeFailedAlert(data["error"]));
 			}
 		})
 		.catch((error) => {
-			alertContainer.appendChild(makeFailedAlert(data["error"]));
+			alertContainer.prepend(makeFailedAlert(data["error"]));
 		})
 
 	// フォームを有効化
 	passwordInput.disabled = false;
 	tweetInput.disabled = false;
 	tweetsButton.disabled = false;
+
+	// ボタンのローディングアイコンを削除
+	tweetsButton.innerHTML = "ツイートする";
 });
