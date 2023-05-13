@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask, request, render_template, jsonify
-from flask_httpauth import HTTPBasicAuth
 import tweepy
 from dotenv import load_dotenv
 
@@ -10,7 +9,6 @@ load_dotenv(".env")
 
 # Flask設定
 app = Flask(__name__)
-auth = HTTPBasicAuth()
 
 # tweepy設定
 client = tweepy.Client(
@@ -20,24 +18,25 @@ client = tweepy.Client(
 	access_token_secret=os.environ.get("TWIT_ACCESS_TOKEN_SECRET")
 )
 
-# 認証
-@auth.verify_password
-def verify_password(username, password):
-	if username == os.environ.get("USERNAME") and password == os.environ.get("PASSWORD"):
-		return username
-	else:
-		return None
 
 # メインページ
 @app.route("/")
 def main():
 	return render_template("index.html")
 
+
 # ツイート用API
-@app.route("/tweet", methods=["POST"])
-@auth.login_required
-def tweet():
+@app.route("/tweets", methods=["POST"])
+def tweets():
+	# 受信データ
 	data = request.get_json()
+
+	# 認証
+	password = data["password"]
+	if password != os.environ.get("PASSWORD"):
+		return jsonify({"error": "パスワードが間違っています。"}), 401
+
+	# ツイート
 	try:
 		client.create_tweet(text=data["tweet"])
 		return jsonify({}), 200

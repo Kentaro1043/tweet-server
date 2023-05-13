@@ -1,18 +1,16 @@
-document.getElementById("tweet-button").addEventListener("click", () => {
-	fetch("./tweet", {
+document.getElementById("tweets-button").addEventListener("click", () => {
+	fetch("./tweets", {
 		method: "POST",
 		headers: {
-			"Authorization": "Basic " + btoa(document.getElementById("username-input").value + ":" + document.getElementById("password-input").value),
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
+		    password: document.getElementById("password-input").value,
 			tweet: document.getElementById("tweet-input").value
 		})
 	})
 		.then((response) => {
-			if (response.status === 401) {
-				return "ユーザー名またはパスワードが間違っています";
-			} else if (response.status === 403) {
+			if (response.status === 401 || response.status === 403) {
 				return response.json();
 			} else if (!response.ok) {
 				throw new Error(response.status);
@@ -23,10 +21,10 @@ document.getElementById("tweet-button").addEventListener("click", () => {
 			if (data === "OK") {
 				alert("ツイートを送信しました");
 			} else {
-				alert(data);
+				alert(data["error"]);
 			}
 		})
 		.catch((error) => {
 			alert(error);
 		})
-})
+});
