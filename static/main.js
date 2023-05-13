@@ -1,12 +1,22 @@
+passwordInput = document.getElementById("password-input");
+tweetInput = document.getElementById("tweet-input");
+tweetsButton = document.getElementById("tweets-button");
+
 document.getElementById("tweets-button").addEventListener("click", () => {
+	// フォームを無効化
+	passwordInput.disabled = true;
+	tweetInput.disabled = true;
+	tweetsButton.disabled = true;
+
+	// ツイートを送信
 	fetch("./tweets", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-		    password: document.getElementById("password-input").value,
-			tweet: document.getElementById("tweet-input").value
+		    password: passwordInput.value,
+			tweet: tweetInput.value
 		})
 	})
 		.then((response) => {
@@ -27,4 +37,9 @@ document.getElementById("tweets-button").addEventListener("click", () => {
 		.catch((error) => {
 			alert(error);
 		})
+
+	// フォームを有効化
+	passwordInput.disabled = false;
+	tweetInput.disabled = false;
+	tweetsButton.disabled = false;
 });
